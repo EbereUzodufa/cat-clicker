@@ -1,129 +1,141 @@
-/*Version 1 
-let clickCounter1 = 0;
-let clickCounter2 = 0;
-
-
-$('#theCat1').click(function(e) {
-  //the element has been clicked... do stuff here
-  clickCounter1++;
-  let ele = document.getElementById('clickCount1');
-  ele.textContent = clickCounter1;
-  updateTotal();
-});
-
-$('#theCat2').click(function(e) {
-  //the element has been clicked... do stuff here
-  clickCounter2++;
-  let ele = document.getElementById('clickCount2');
-  ele.textContent = clickCounter2;
-  updateTotal();
-});
-
-const updateTotal = function(){
-	let totalCount = clickCounter1 + clickCounter2;
-	console.log(totalCount);
-	$('#clickCountTotal').html(totalCount);
-	// $('#clickCountTotal').html(totalCount);
-}
-*/
-const listOfCats = document.getElementById('listOfCats');
-const selectedCatName = document.getElementById('selectedCatCaption');
-const selectedCatImg = document.getElementById('selectedImg');
-const selectedCatClickCount = document.getElementById('clickCount');
-
-let selectedCat;
-let totalCount = 0;
-
-class Cat{
-	constructor(name, src, count){
-		this.name = name;
-		this.src = src;
-		this.count = count;
-	}
-}
-
-var defaultCatList = [
-	['Chidozie', 'img/chidozie.jpg'],
-	['Egiemeh', 'img/egie.jpg'],
-	['Obinna', 'img/obinna.jpg'],
-	['Kizito', 'img/kizito.jpg'],
-	['Ebere', 'img/ebere.jpg'],
-];
-
-var catList = defaultCatList.map(cat => {
-	const thisCat = new Cat(cat[0], cat[1], 0);
-	// console.log(thisCat);
-	return thisCat;
-});
-
-console.log(catList);
-
-let catListHTML;
-
-let listCats = function(){
-	catListHTML='';
-	for (var i = catList.length - 1; i >= 0; i--) {
-		var catName = catList[i].name;
-		// var catsrc = catList[i].name;
-		// catListHTML += ('<p id="aCat">' + catName + '</p>');
-		// console.log(catListHTML);
-
-		 // We're creating a DOM element for the number
-	    var elem = document.createElement('p');
-	    elem.textContent = catName;
-
-	    // ... and when we click, alert the value of `num`
-	    elem.addEventListener('click', (function(catNameCopy) {
-	        return function() {
-	        	updateStatus(catNameCopy);
-	        	selectedCat = catNameCopy;
-				console.log('clicked');
-	        };
-	    })(catName));
-	    listOfCats.appendChild(elem);
-	}
-}
-
-(function(){
-	listCats();
-})
-
-// $('#aCat').click(function(e) {
-//   //the element has been clicked... do stuff here
-//   console.log('clicked');
-//   let ele = $(this).html();
-//   console.log(ele);
-// });
-
-var updateStatus = function(thisCatName){
-	for (var i = catList.length - 1; i >= 0; i--) {
-		var catName = catList[i].name;
-		console.log('catName - ' + catName);
-		console.log('thisCatName - ' + thisCatName);
-		if (catName === thisCatName) {
-			var catSrc = catList[i].src;
-			var catCount = catList[i].count;
-			selectedCatName.textContent = catName;
-			selectedCatImg.src = catSrc;
-			selectedCatClickCount.textContent = catCount;
-           	console.log(catSrc + ' , ' + catName);
-           	break;
+var totalCounter = 0;
+var model = {
+	catList: [
+		{
+			name:'Chidozie',
+			src:'img/chidozie.jpg',
+			imgAttr:'cat Chidozie',
+			clickCounter:0
+		},
+		{
+			name:'Egiemeh',
+			src:'img/egie.jpg',
+			imgAttr:'cat Egiemeh',
+			clickCounter:0
+		},
+		{
+			name:'Obinna',
+			src:'img/obinna.jpg',
+			imgAttr:'cat Obinn',
+			clickCounter:0
+		},
+		{
+			name:'Kizito',
+			src:'img/kizito.jpg',
+			imgAttr:'cat Kizito',
+			clickCounter:0
+		},
+		{
+			name:'Ebere',
+			src:'img/ebere.jpg',
+			imgAttr:'cat Ebere',
+			clickCounter:0
 		}
+	],
+
+	selectedCat: null,
+
+	// totalCount: 0
+};
+
+var octopus = {
+	init: function(){
+		model.selectedCat = model.catList[0];
+
+		theCatListsView.init();
+		theCatView.init();
+	},
+
+	getCats: function(){
+		return model.catList;
+	},
+
+	getSelectedCat: function(){
+		return model.selectedCat;
+	},
+
+	setSelectedCat: function(thisCat){
+		model.selectedCat = thisCat;
+	},
+
+	increaseSelectedCatCounter: function(){
+		model.selectedCat.clickCounter++;
+		// totalCounter++;
+		// modal.totalCount = totalCounter;
+		theCatView.render();
 	}
 }
 
-$('#selectedImg').click(function(e) {
-  //the element has been clicked... do stuff here
-  	for (var i = catList.length - 1; i >= 0; i--) {
-		var catName = catList[i].name;
-		if (catName === selectedCat) {
-			var catCount = catList[i].count;
-			catCount += 1;
-			totalCount += 1;
-			catList[i].count = catCount;
-			selectedCatClickCount.textContent = catCount;
-           	break;
-		}
-	}
-	$('#clickCountTotal').html(totalCount);
-});
+var theCatView = {
+    init: function() {
+        // store pointers to our DOM elements for easy access later
+        this.thisCatElem = document.getElementById('catDisplay');
+        this.thisCatNameElem = document.getElementById('selectedCatCaption');
+        this.thisCatImageElem = document.getElementById('selectedImg');
+        this.thisCountElem = document.getElementById('clickCount');
+
+        // on click, increment the current cat's counter
+        this.thisCatImageElem.addEventListener('click', function(){
+            octopus.increaseSelectedCatCounter();
+            totalCounter++;
+            console.log(totalCounter);
+            $('#clickCountTotal').html(totalCounter);
+        });
+
+        // render this view (update the DOM elements with the right values)
+        this.render();
+    },
+
+    render: function() {
+        // update the DOM elements with values from the current cat
+        var selectedCat = octopus.getSelectedCat();
+        this.thisCountElem.textContent = selectedCat.clickCounter;
+        this.thisCatNameElem.textContent = selectedCat.name;
+        this.thisCatImageElem.src = selectedCat.src;
+        this.thisCatImageElem.alt = selectedCat.imgAttr;
+    }
+};
+
+var theCatListsView = {
+
+    init: function() {
+        // store the DOM element for easy access later
+        this.catListElem = document.getElementById('listOfCats');
+
+        // render this view (update the DOM elements with the right values)
+        this.render();
+    },
+
+    render: function() {
+        var cat, elem, i;
+        // get the cats we'll be rendering from the octopus
+        var cats = octopus.getCats();
+
+        // empty the cat list
+        this.catListElem.innerHTML = '';
+
+        // loop over the cats
+        for (i = 0; i < cats.length; i++) {
+            // this is the cat we're currently looping over
+            cat = cats[i];
+
+            // make a new cat list item and set its text
+            elem = document.createElement('li');
+            elem.textContent = cat.name;
+
+            // on click, setCurrentCat and render the catView
+            // (this uses our closure-in-a-loop trick to connect the value
+            //  of the cat variable to the click event function)
+            elem.addEventListener('click', (function(catCopy) {
+                return function() {
+                    octopus.setSelectedCat(catCopy);
+                    theCatView.render();
+                };
+            })(cat));
+
+            this.catListElem.appendChild(elem);
+        }
+    }
+};
+
+octopus.init();
