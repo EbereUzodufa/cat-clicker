@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 </head>
 <body>
-	<div id="div1">
+	<div>
+		<p>Total number of clicks: <span id="clickCountTotal"></span></p>
+	</div>
+	<!-- <div id="div1">
 		<img src="img/theCat.jpg" alt="the cat" id="theCat1">
 		<span id="clickCount1">0</span>
 	</div>
@@ -14,9 +17,18 @@
 		<img src="img/theCat.jpg" alt="the cat" id="theCat2">
 		<span id="clickCount2">0</span>
 	</div>
-	<br/>
-	<p><span id="clickCountTotal"></span></p>
-
+	<br/> -->
+	<div class="container">
+		<div id="listOfCats"></div>
+		<div id="catDisplay">
+			<figure>
+				<img id="selectedImg"/>
+				<figcaption id="selectedCatCaption"></figcaption>
+				Number of clicks: <span id="clickCount">0</span>
+			</figure>
+		</div>
+	</div>
+	
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="app.js"></script>
 </body>
