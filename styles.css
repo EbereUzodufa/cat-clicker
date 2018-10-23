@@ -4,7 +4,7 @@ img{
 }
 
 body{
-	width: 800px;
+	width: 500px;
 	margin: auto;
 }
 
@@ -35,4 +35,16 @@ div:last-of-type{
 #clickCountTotal{
 	font-weight: bold;;
 	color: #556080;
+}
+
+@media screen and (max-width: 550px){
+	body{
+		width: auto;
+		margin-right: 20px;
+		margin-left: 20px;
+	}
+	#listOfCats, #catDisplay{
+		width: 100%;
+		margin: auto;
+	}
 }
