@@ -53,7 +53,7 @@ div:last-of-type{
     color: #556080;
 }
 
-form{
+form, #addCatForm{
 	padding 5px;
 	/*text-align: center;*/
 	margin: 5px;
