@@ -63,7 +63,32 @@ var octopus = {
 		// totalCounter++;
 		// modal.totalCount = totalCounter;
 		theCatView.render();
-	}
+	},
+
+    updateCat: function(newCatName, newCatUrl, newCatCounter){
+        this.cat = model.selectedCat;
+        this.cat.name = newCatName;
+        this.cat.src = newCatUrl;
+        this.cat.clickCounter = newCatCounter;
+        console.log(this.cat);
+        alert('Updated');
+        theCatView.render();
+        theCatListsView.render();
+    },
+
+    totalCount: function(){
+        var cats = octopus.getCats();
+        let countCatsClicks = 0;
+        // console.log('<!------>');
+        for (var i = cats.length - 1; i >= 0; i--) {
+            // console.log(cats[i].name + ' - ' + cats[i].clickCounter);
+            countCatsClicks += cats[i].clickCounter;
+        }
+        totalCounter = countCatsClicks;
+        console.log('This is the countCatsClicks:' + countCatsClicks);
+        console.log('This is the totalCounter:' + totalCounter);
+        // console.log('<------!>');
+    }
 }
 
 var theCatView = {
@@ -74,12 +99,17 @@ var theCatView = {
         this.thisCatImageElem = document.getElementById('selectedImg');
         this.thisCountElem = document.getElementById('clickCount');
 
+        this.formCatName = document.getElementById('formCatName');
+        this.formCatUrl = document.getElementById('formCatUrl');
+        this.formCatClickCount = document.getElementById('formCatClickCount');
+
         // on click, increment the current cat's counter
         this.thisCatImageElem.addEventListener('click', function(){
             octopus.increaseSelectedCatCounter();
             totalCounter++;
             console.log(totalCounter);
             $('#clickCountTotal').html(totalCounter);
+            octopus.totalCount();
         });
 
         // render this view (update the DOM elements with the right values)
@@ -93,6 +123,10 @@ var theCatView = {
         this.thisCatNameElem.textContent = selectedCat.name;
         this.thisCatImageElem.src = selectedCat.src;
         this.thisCatImageElem.alt = selectedCat.imgAttr;
+
+        this.formCatName.value = selectedCat.name;
+        this.formCatUrl.value = selectedCat.src;
+        this.formCatClickCount.value = selectedCat.clickCounter;
     }
 };
 
@@ -101,8 +135,37 @@ var theCatListsView = {
     init: function() {
         // store the DOM element for easy access later
         this.catListElem = document.getElementById('listOfCats');
-
+        const adminButton = document.getElementById('showAdminButton');
+        const cancelButton = document.getElementById('cancelButton');
+        const submitButton = document.getElementById('submitButton');
+        const form = document.getElementById('adminPanel');
         // render this view (update the DOM elements with the right values)
+
+        //Cancel Button function
+        adminButton.addEventListener('click', function(e){
+            // console.log('Okay');
+            $(form).toggle('hidden');
+        });
+
+        cancelButton.addEventListener('click', function(ev){
+            // console.log('Okay');
+            ev.preventDefault();
+            // $(form).hide(); This will work perfects
+            $(form).toggle('hidden');
+        });
+
+        submitButton.addEventListener('click', function(ev){
+            // console.log('Okay');
+            ev.preventDefault();
+            this.formCatName = document.getElementById('formCatName');
+            this.formCatUrl = document.getElementById('formCatUrl');
+            this.formCatClickCount = document.getElementById('formCatClickCount');
+
+            //console.log(this.formCatName.value + ', ' + this.formCatUrl.value + ', ' + this.formCatClickCount.value);
+            octopus.updateCat(this.formCatName.value, this.formCatUrl.value, this.formCatClickCount.value);
+        });
+
+
         this.render();
     },
 

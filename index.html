@@ -10,7 +10,7 @@
 		<p>Total number of clicks: <span id="clickCountTotal"></span></p>
 	</div>
 	<!-- <div id="div1">
-		<img src="img/theCat.jpg" alt="the cat" id="theCat1">
+		<img src="img/theCat.jpg" alt="the cast" id="theCat1">
 		<span id="clickCount1">0</span>
 	</div>
 	<div id="div2">
@@ -26,8 +26,16 @@
 				<figcaption id="selectedCatCaption"></figcaption>
 				Number of clicks: <span id="clickCount">0</span>
 			</figure>
+			<div id="showAdminButton">Admin</div>
 		</div>
 	</div>
+	<form id="adminPanel" hidden>
+		Cat name: <input type="text" name="catName" id="formCatName"><br>
+		Cat URL: <input type="text" name="catSrcUrl" id="formCatUrl"><br>
+		Cat Click counts: <input type="text" name="catClickCount" id="formCatClickCount"><br>
+		<input type="submit" name="cancelButton" value="Cancel" id="cancelButton">
+		<input type="submit" name="submitButton" value="Submit" id="submitButton">
+	</form>
 	
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="app.js"></script>

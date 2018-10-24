@@ -37,6 +37,38 @@ div:last-of-type{
 	color: #556080;
 }
 
+#showAdminButton{
+	border: 2px solid #556080;
+	border-radius: 2px;
+	height: 20px;
+	text-align: center;
+	margin: auto;
+	padding: 1px;
+	background: #556080;
+    color: #fff;
+}
+
+#showAdminButton:hover{
+	background: #fff;
+    color: #556080;
+}
+
+form{
+	padding 5px;
+	/*text-align: center;*/
+	margin: 5px;
+	border: 2px solid #000;
+	padding: 5px;
+}
+
+input{
+	margin: 5px;
+}
+
+input[type="submit"]{
+	background-color: #898;
+}
+
 @media screen and (max-width: 550px){
 	body{
 		width: auto;
